@@ -56,7 +56,7 @@ resource "aws_route_table_association" "our_association_subnet" {
     route_table_id = aws_route_table.our_route_table.id
 }
 
-# Create a Security Group
+# Create a Security Group for HTTP
 resource "aws_security_group" "allow_80" {
   name = "allow_80"
   description = "allows HTTP: 80"
@@ -79,5 +79,30 @@ resource "aws_security_group" "allow_80" {
 
   tags = {
       Name = "allow_80"
+  }
+}
+
+# Create a Security Group for SSH
+resource "aws_security_group" "allow_22" {
+  name = "allow_22"
+  description = "allows SSH: 22"
+  vpc_id = aws_vpc.SR_VPC.id
+
+  ingress {
+    description = "SSH: 22 from VPC"
+    from_port = 22
+    to_port = 22
+    protocol = "TCP"
+    cidr_blocks = [aws_vpc.SR_VPC.cidr_block]
+  }
+
+   egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+  tags = {
+      Name = "allow_22"
   }
 }
