@@ -29,3 +29,13 @@ resource "aws_subnet" "subnet0" {
       Name = "our_subnet"
   }
 }
+
+# Create a Internet Gateway
+resource "aws_internet_gateway" "our_iGateway" {
+    vpc_id = aws_vpc.SR_VPC.id
+    tags = {
+        Name = "our_iGateway"
+    }
+}
+
+
