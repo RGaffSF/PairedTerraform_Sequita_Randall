@@ -20,3 +20,12 @@ resource "aws_vpc" "SR_VPC" {
     Name = "SR_VPC"
   }
 }
+
+# Create a subnet
+resource "aws_subnet" "subnet0" {
+  vpc_id = aws_vpc.SR_VPC.id
+  cidr_block = "10.0.1.0/24"
+  tags = {
+      Name = "our_subnet"
+  }
+}
